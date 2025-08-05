@@ -233,7 +233,8 @@
 
 </head>
 <body class="{{ session('darkMode') ? 'dark-mode' : '' }}">
-
+{{-- Navbar --}}
+@include('partials.navbar')
 
 
 {{--<div class="ui grid" style="margin-top:2em;">--}}
