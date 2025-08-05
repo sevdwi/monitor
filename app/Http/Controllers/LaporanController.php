@@ -15,7 +15,7 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        $laporans = Laporan::with(['opd', 'lokasi', 'pics'])->latest()->get();
+        $laporans = Laporan::with(['opd', 'lokasi', 'pics'])->latest()->get() ?? collect();
         $opds = OPD::all();
         $lokasis = Lokasi::all();
         $users = User::all();

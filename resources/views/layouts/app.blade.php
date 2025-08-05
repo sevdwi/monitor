@@ -110,12 +110,13 @@
             $('#laporan').DataTable({
                 "pagingType": "full_numbers",
                 "language": {
+                    "emptyTable": "Belum ada data laporan.",
                     "search": "Cari:",
                     "lengthMenu": "Tampilkan _MENU_ entri",
                     "zeroRecords": "Data tidak ditemukan",
                     "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
                     "infoEmpty": "Tidak ada data",
-                    "infoFiltered": "(difilter dari _MAX_ total entri)"
+                    "infoFiltered": "(difilter dari _MAX_ total entri)",
                 },
                 initComplete: function () {
                     $('#laporan_filter').append(`

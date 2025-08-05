@@ -204,7 +204,6 @@ CREATE TABLE `laporan_kolaborator` (
 
 LOCK TABLES `laporan_kolaborator` WRITE;
 /*!40000 ALTER TABLE `laporan_kolaborator` DISABLE KEYS */;
-INSERT INTO `laporan_kolaborator` VALUES (10,1),(11,1),(12,1),(13,1),(14,1),(14,2),(15,1),(16,1),(17,1),(17,2),(18,1),(19,1),(20,1),(21,1);
 /*!40000 ALTER TABLE `laporan_kolaborator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,7 +223,7 @@ CREATE TABLE `laporan_pic` (
   KEY `laporan_pic_user_id_foreign` (`user_id`),
   CONSTRAINT `laporan_pic_laporan_id_foreign` FOREIGN KEY (`laporan_id`) REFERENCES `laporans` (`id`) ON DELETE CASCADE,
   CONSTRAINT `laporan_pic_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +232,6 @@ CREATE TABLE `laporan_pic` (
 
 LOCK TABLES `laporan_pic` WRITE;
 /*!40000 ALTER TABLE `laporan_pic` DISABLE KEYS */;
-INSERT INTO `laporan_pic` VALUES (3,4,1),(4,4,2),(5,5,1),(6,5,2),(10,7,2),(11,7,3),(12,8,2),(13,8,3),(14,3,1),(15,3,2),(16,9,1),(17,9,2),(18,6,1),(19,10,1),(20,10,2),(21,11,1),(22,11,2),(23,11,3),(24,12,1),(25,12,2),(26,12,3),(27,13,1),(28,13,2),(29,13,3),(30,14,1),(31,14,2),(32,14,3),(33,15,1),(34,15,2),(35,15,3),(36,16,1),(37,16,2),(38,16,3),(39,17,1),(40,17,2),(41,17,3),(42,18,1),(43,18,2),(44,18,3),(45,19,1),(46,19,2),(47,19,3),(48,20,1),(49,20,2),(50,20,3),(51,21,1),(52,21,2),(53,21,3);
 /*!40000 ALTER TABLE `laporan_pic` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,7 +268,7 @@ CREATE TABLE `laporans` (
   CONSTRAINT `laporans_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `laporans_lokasi_id_foreign` FOREIGN KEY (`lokasi_id`) REFERENCES `lokasis` (`id`) ON DELETE CASCADE,
   CONSTRAINT `laporans_opd_id_foreign` FOREIGN KEY (`opd_id`) REFERENCES `opds` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,7 +277,6 @@ CREATE TABLE `laporans` (
 
 LOCK TABLES `laporans` WRITE;
 /*!40000 ALTER TABLE `laporans` DISABLE KEYS */;
-INSERT INTO `laporans` VALUES (2,'selesai','2025-07-29 17:00:00',NULL,'Jaringan di SETDA mati',NULL,NULL,7,7,'jaringan','Mau ke lapangan dulu',NULL,0,NULL,NULL,1,'2025-07-28 21:41:11','2025-07-29 20:42:59'),(3,'selesai','2025-07-29 17:00:00',NULL,'Jaringan di SETDA mati',NULL,NULL,7,7,'jaringan','Mau ke lapangan dulu','Ganti Perangkat',1,'HTB','baru',1,'2025-07-28 21:45:27','2025-07-29 20:46:08'),(4,'selesai','2025-07-01 19:20:00','2025-07-10 10:35:00','Perbaikan Mikrotik di DISDUKCAPIL',NULL,NULL,2,3,'jaringan','Internet putus','ganti perangkat baru',1,'Mikrotik RB 2011','baru',1,'2025-07-29 00:15:13','2025-07-29 00:15:13'),(5,'selesai','2025-07-29 23:00:00','2025-07-30 05:00:00','Kabel Putus di depan dishub',NULL,NULL,1,3,'jaringan','kena trabasan','sambung lagi',1,'kabel dropcore','bekas',1,'2025-07-29 00:17:43','2025-07-30 02:55:55'),(6,'selesai','2025-07-27 10:30:00','2025-07-28 13:35:00','Buat Modul Login','bukti_dukung/lA9MyPxBT7gmNhKSwlVxSK4NSZsSW8dJA95jzjgC.png',NULL,2,3,'aplikasi','User Request','Dibikinkan',0,NULL,NULL,1,'2025-07-29 00:25:03','2025-07-29 20:40:59'),(7,'selesai','2025-07-30 09:00:00','2025-07-30 22:00:00','Fasilitasi Zoom di SETDA','bukti_dukung/KNV6VV56G1qtCR2sN0qYb0OxZZqkelVzBbuaXJHd.png','https://www.google.com',2,2,'infrastruktur','-','-',0,NULL,NULL,1,'2025-07-29 19:34:10','2025-07-29 19:34:10'),(8,'selesai','2025-07-30 21:00:00','2025-07-30 22:00:00','Fasilitasi Zoom di SETDA','bukti_dukung/b8CX9JLGoRfY9SQSwZEOKm4uUs61UtFEJJujc3u5.png',NULL,2,2,'aplikasi',NULL,NULL,0,NULL,NULL,1,'2025-07-29 19:35:45','2025-07-29 19:35:45'),(9,'selesai','2025-07-30 22:45:00','2025-07-30 23:05:00','Jaringan Fiber Optik Putus di Depan SPBU Damalang','images/kGhKipd68k8RFLY1Mt6CD7huFM5ymmQrgpa57f0R.png',NULL,3,6,'jaringan','Putus Tertabrak Kendaraan','Disambung',1,'Kabel Fiber Optik','baru',1,'2025-07-29 20:49:11','2025-07-30 03:01:42'),(10,'selesai','2025-07-30 12:00:00','2025-07-30 13:20:00','Test','bukti_dukung/TLILEK04ep77UlEltp9fsBLgQsfX1DVyR4gZyVHC.png',NULL,2,2,'jaringan','test','test',1,'HTB','baru',1,'2025-07-29 21:58:55','2025-07-31 00:59:54'),(11,'selesai','2025-07-30 12:00:00','2025-07-30 13:05:00','test','bukti_dukung/8DIsKkR61cH8JzAprNyeVsyA6D4W1Lo0JhQJqy4l.png',NULL,2,3,'jaringan','test','test',1,'test','baru',1,'2025-07-29 23:14:59','2025-07-31 00:59:16'),(12,'selesai','2025-07-30 13:35:00','2025-07-30 14:05:00','lorem','images/kvL0S3hQeBamBCMqzyHFonlhXVBK6sTwZPIREm3G.png',NULL,2,2,'jaringan','lorem','lorem',1,'lorem','baru',1,'2025-07-29 23:54:56','2025-07-30 03:00:07'),(13,'selesai','2025-07-30 13:35:00','2025-07-30 14:20:00','lorem','bukti_dukung/vJ0IoIjpbseFSu6vZmywGIz4iv1VuKBpzzxjS0KO.png',NULL,2,2,'jaringan','lorem','lorem',1,'lorem','baru',1,'2025-07-29 23:57:33','2025-07-30 02:55:28'),(14,'selesai','2025-07-30 02:45:00','2025-07-30 15:05:00','Lorem ipsum','bukti_dukung/2WlbOOg69MOm3FwrDNQJfud2nR96bOsbq8zDHReX.png',NULL,2,3,'jaringan','lorem ipsum','lorem ipsum',1,'lorem ipsum','bekas',1,'2025-07-30 00:40:41','2025-07-30 02:54:56'),(15,'selesai','2025-07-30 15:05:00','2025-07-30 15:10:00','a','bukti_dukung/uVRZZRtdRG63vN6MBr1tLwSdZeLhfxefDFkloAqC.png',NULL,1,1,'aplikasi','a','a',1,'a','bekas',1,'2025-07-30 01:13:42','2025-07-30 01:13:42'),(16,'selesai','2025-08-01 08:00:00','2025-08-01 16:00:00','Lorem','bukti_dukung/8fJsRYSbtGVrBCsXvn6HYMFFTNgtQhjxFwVIZFzz.png',NULL,1,1,'aplikasi','Lorem','Lorem',1,'Lorem','baru',1,'2025-08-01 02:03:50','2025-08-01 02:03:50'),(17,'selesai','2025-08-04 08:00:00','2025-08-04 09:05:00','Lorem Ipsum','bukti_dukung/P9rGgh6C7NwxXkKIiV8nnwEH5Lfv4TNpkK7NdO3f.pdf',NULL,2,2,'infrastruktur','Lorem Ipsum','Lorem Ipsum',1,'Lorem Ipsum','baru',1,'2025-08-03 21:03:11','2025-08-03 21:03:11'),(18,'selesai','2025-08-04 10:00:00','2025-08-04 11:00:00','Testing','bukti_dukung/BnetThNs0kMP2jhBb8XypT0vV0SJCdFNRNWitAiP.pdf',NULL,1,1,'aplikasi','Bug','Bug',1,'Bug','baru',1,'2025-08-03 21:07:48','2025-08-03 21:07:48'),(19,'selesai','2025-08-04 10:05:00','2025-08-04 11:05:00','Test bug fix','bukti_dukung/93LnjabMLAK9iFKxAI1FR3OzbkK07FSwGwZENr8K.pdf',NULL,1,1,'aplikasi','test bug fix','test bug fix',1,'fix','baru',1,'2025-08-03 21:24:50','2025-08-03 21:24:50'),(20,'selesai','2025-08-04 09:00:00','2025-08-04 10:00:00','Test Bug Fix 2 ganti .env','bukti_dukung/REVVleVaIiUkUe5sEXnWvSGxFgvakNrNGaJRE56D.jpg',NULL,1,1,'aplikasi','bf2','bf2',1,'fix','baru',1,'2025-08-03 21:27:53','2025-08-03 21:27:53'),(21,'selesai','2025-08-01 13:00:00','2025-08-01 15:00:00','test bugfix 3','bukti_dukung/hI7TYymxfCgJ1nOuvpWFT6UbwqaG6M6EBZkvkM6Z.jpg',NULL,1,7,'aplikasi','test bf3','test bf3',1,'fix','baru',1,'2025-08-03 21:33:43','2025-08-03 21:33:43');
 /*!40000 ALTER TABLE `laporans` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,7 +298,7 @@ CREATE TABLE `lokasis` (
   PRIMARY KEY (`id`),
   KEY `lokasis_opd_id_foreign` (`opd_id`),
   CONSTRAINT `lokasis_opd_id_foreign` FOREIGN KEY (`opd_id`) REFERENCES `opds` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +307,7 @@ CREATE TABLE `lokasis` (
 
 LOCK TABLES `lokasis` WRITE;
 /*!40000 ALTER TABLE `lokasis` DISABLE KEYS */;
-INSERT INTO `lokasis` VALUES (1,'Bidang Informatika','Jalan Sindoro No. 36',NULL,1,'2025-07-28 04:48:37','2025-07-28 04:48:37'),(2,'Ruang Sekretariat','Jl. Jend.  Sudirman',NULL,2,'2025-07-28 04:55:50','2025-07-28 04:55:50'),(3,'UPT Perbaikan Perahu','Jl. Sutera',NULL,5,'2025-07-28 04:57:35','2025-07-28 04:57:35'),(4,'UPT Penyebrangan Kereta Api','Jl. Sindoro',NULL,6,'2025-07-28 04:59:10','2025-07-28 04:59:10'),(5,'UPT PUSKESMAS Jeruk Legi','Jl. Wangon',NULL,4,'2025-07-28 05:01:53','2025-07-28 05:01:53'),(6,'UPT Pembenihan','Jeruk Legi',NULL,5,'2025-07-28 05:04:20','2025-07-28 05:04:20'),(7,'Sekretariat','Jl. Sindoro',NULL,1,'2025-07-28 05:07:03','2025-07-28 05:07:03');
+INSERT INTO `lokasis` VALUES (8,'Bidang Informasi dan Komunikasi Publik','Jl. Sindoro No. 36',NULL,1,'2025-08-05 02:45:26','2025-08-05 02:45:26'),(9,'Bidang Informatika','Jalan Sindoro No. 36',NULL,1,'2025-08-05 02:45:41','2025-08-05 02:45:41'),(10,'Bidang Statistik dan Persandian','Jl. Sindoro No. 36',NULL,1,'2025-08-05 02:46:05','2025-08-05 02:46:05'),(11,'Sekretariat','Jalan Sindoro No. 36',NULL,1,'2025-08-05 02:46:44','2025-08-05 02:46:44');
 /*!40000 ALTER TABLE `lokasis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,7 +359,7 @@ CREATE TABLE `opds` (
 
 LOCK TABLES `opds` WRITE;
 /*!40000 ALTER TABLE `opds` DISABLE KEYS */;
-INSERT INTO `opds` VALUES (1,'Dinas Komunikasi dan Informatika Kabupaten Cilacap','36','2025-07-28 03:44:28','2025-07-28 03:44:28'),(2,'Kecamatan Nusawungu','99','2025-07-28 04:20:12','2025-07-28 04:20:12'),(3,'Kecamatan Nusawungu','99','2025-07-28 04:20:12','2025-07-28 04:20:12'),(4,'Dinas Kesehatan','89','2025-07-28 04:24:18','2025-07-28 04:24:18'),(5,'Dinas Perikanan','78','2025-07-28 04:26:05','2025-07-28 04:26:05'),(6,'Dinas Perhubungan','88','2025-07-28 04:44:33','2025-07-28 04:44:33'),(7,'Dinas Pertanahan','33','2025-07-28 04:47:19','2025-07-28 04:47:19');
+INSERT INTO `opds` VALUES (1,'Dinas Komunikasi dan Informatika Kabupaten Cilacap','36','2025-07-28 03:44:28','2025-07-28 03:44:28');
 /*!40000 ALTER TABLE `opds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,7 +413,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('jZCV2ZqQgjnJY8ajbJLo6r7g2bLgjcpwakr9HEzr',NULL,'172.19.224.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoicHVjS3hMUFhqRkl1TWNsVlB6c1h1RHhTWEh3V1FqbnJhT3hnQUdYbSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xNzIuMTkuMjI1LjI1NDo4MDAwL2Rhc2hib2FyZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1754282492);
+INSERT INTO `sessions` VALUES ('Ew424ZuQWlMbxOfRXsk3olkUXaaU46HDXtGuDfQg',NULL,'172.19.224.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoiU1hDTGE5U09oeXRtd2JTRFA1Vm00ZG5nU2kxUFgxZHcyTmNCQXFWRiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xNzIuMTkuMjI1LjI1NDo4MDAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1754388056),('LgBOm5G7gkXB2X0ZlpziMf5tO6p5xdQDGaXjhghh',NULL,'172.19.224.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoiUm1aaVlOWENyMlNRSm0wN2xUTmhCaFlhSDZNb1VPbzFlbGNEd3phRCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xNzIuMTkuMjI1LjI1NDo4MDAwL29wZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1754387204);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,7 +435,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +444,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Doni','mailbox.doni@gmail.com',NULL,'12345',NULL,NULL,NULL),(2,'Langgeng','mailbox.langgeng@gmail.com',NULL,'12345',NULL,NULL,NULL),(3,'Fauzi','mailbox.fauzi@gmail.com',NULL,'12345',NULL,NULL,NULL);
+INSERT INTO `users` VALUES (5,'Aan','aan@exmail.com',NULL,'$2y$12$PanDvKujSLCGIVW4SgSJ.eleoivODtmtOeW/8IAd3rkwGRE.o6JwS',NULL,'2025-08-05 02:58:55','2025-08-05 02:58:55'),(6,'Adi','adi@exmail.com',NULL,'$2y$12$LaLqwmSi.LinP5L9sXKZ6.zZbMZi.x89anry8.DEDx2xA0IOXTP/O',NULL,'2025-08-05 02:58:55','2025-08-05 02:58:55'),(7,'Anas','anas@exmail.com',NULL,'$2y$12$rHK.fCyz9G0jtW1C3MQjb.9X9L3dzHlfVaCqgqHgTYXXts0AQU2M2',NULL,'2025-08-05 02:58:55','2025-08-05 02:58:55'),(8,'Deni','deni@exmail.com',NULL,'$2y$12$Ud3Dq4PERDjvIM9MdNQFIuMiJyzEJbPxuizmFg6XK/8qdX4abdG3u',NULL,'2025-08-05 02:58:56','2025-08-05 02:58:56'),(9,'Doni','doni@exmail.com',NULL,'$2y$12$88luFdglcrLb0fgpbOr.Q.p9ZfPQG8RbYCnMoezBXCtXgULueNaqa',NULL,'2025-08-05 02:58:56','2025-08-05 02:58:56'),(10,'Edo','edo@exmail.com',NULL,'$2y$12$6syQJYNYBBIdz0yZbsNtneIQOCTiy7.48VoszdVHV843p9U/CU.ge',NULL,'2025-08-05 02:58:56','2025-08-05 02:58:56'),(11,'Rahman','rahman@exmail.com',NULL,'$2y$12$EIlH8Oww3G3z3hVAZplmgeMjbsOoktFP8X0eXZtsC4tQKqfmztekK',NULL,'2025-08-05 02:58:57','2025-08-05 02:58:57'),(12,'Ridwan','ridwan@exmail.com',NULL,'$2y$12$6DjbfudNLf9.c5Qa61TUPef7Df8V3Xldy5c5i6q4RZCRuUYNG4cZq',NULL,'2025-08-05 02:58:57','2025-08-05 02:58:57'),(13,'Rio','rio@exmail.com',NULL,'$2y$12$ZxAmpwahXsFawwKzdD6O6.uk1xNJ3tTV5qXYmikULRX.8.k9aaWLC',NULL,'2025-08-05 02:58:57','2025-08-05 02:58:57'),(14,'Sevan','sevan@exmail.com',NULL,'$2y$12$WelIsIg2Y8PhhJhH1lOWOeW8FFkjcc.XKNLWk5RCy59G/t1DHKrAS',NULL,'2025-08-05 02:58:57','2025-08-05 02:58:57'),(15,'Slamet','slamet@exmail.com',NULL,'$2y$12$XG08i2g77HMxah1k1TJfTuiW55b7bew88MycxRzaQvsIHiGVn25ZK',NULL,'2025-08-05 02:58:58','2025-08-05 02:58:58'),(16,'Taufan','taufan@exmail.com',NULL,'$2y$12$AbzaxVDXMcePca2Urx76leM.ahzuhlWqtNHFfoTWVXxqLPLEmsvwi',NULL,'2025-08-05 02:58:58','2025-08-05 02:58:58'),(17,'Wahyu','wahyu@exmail.com',NULL,'$2y$12$dazZ2iPLf8WWeO63EZQQ5.ogOvxpNMmGjaasno0j3pxqXFtb74yjq',NULL,'2025-08-05 02:58:58','2025-08-05 02:58:58'),(18,'Widya','widya@exmail.com',NULL,'$2y$12$6BlvaKrPhRIiMAIz0nQkTO5P3uSmyMyhCTpJCbJHX8kZOIRx6r1W.',NULL,'2025-08-05 02:58:59','2025-08-05 02:58:59'),(19,'Yunita','yunita@exmail.com',NULL,'$2y$12$QnCpDm8mqmxllGMIHqjbWeJhMGIEbJYJtHENuK8nxq1SfIwlE74MC',NULL,'2025-08-05 02:58:59','2025-08-05 02:58:59');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -460,4 +457,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-04 13:58:28
+-- Dump completed on 2025-08-05 17:02:02
