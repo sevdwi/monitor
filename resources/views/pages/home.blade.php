@@ -115,7 +115,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="12" class="center aligned">Belum ada data laporan.</td></tr>
+{{--                        <tr><td colspan="12" class="center aligned">Belum ada data laporan.</td></tr>--}}
                     @endforelse
                     </tbody>
                     <tfoot></tfoot>
@@ -211,15 +211,6 @@
                             @endforeach
                         </select>
                     </div>
-{{--                    <div class="field">--}}
-{{--                        <label>LOKASI</label>--}}
-{{--                        <select class="ui fluid dropdown" name="lokasi" required>--}}
-{{--                            <option value="">Pilih Lokasi</option>--}}
-{{--                            @foreach($lokasis as $lokasi)--}}
-{{--                                <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
                     <div class="field">
                         <label>LOKASI</label>
                         <select class="ui fluid dropdown" name="lokasi" id="lokasi-dropdown" required>
@@ -502,6 +493,5 @@
             });
         });
     </script>
-
 @endpush
 

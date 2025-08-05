@@ -193,10 +193,13 @@
                                 <div class="ui relaxed divided list" style="margin-top: 1em;">
                                     @foreach (['belum', 'proses', 'tertunda', 'selesai'] as $status)
                                         @php
-                                            [$icon, $color] = $statusIcons[$status];
-                                            $count = optional($statusPerKategori[$kategori])
-                                                ->firstWhere('status_pekerjaan', $status)
-                                                ->total ?? 0;
+                                            $count = optional($statusPerKategori[$kategori] ?? collect())
+                                            ->firstWhere('status_pekerjaan', $status)
+                                            ->total ?? 0;
+
+                                            // Assign icon dan color dari $statusIcons
+                                            $icon = $statusIcons[$status][0] ?? 'question circle';  // default icon kalau gak ada
+                                            $color = $statusIcons[$status][1] ?? 'grey';            // default color kalau gak ada
                                         @endphp
                                         <div class="item">
                                             <i class="{{ $icon }} {{ $color }} icon"></i>
