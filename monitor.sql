@@ -223,7 +223,7 @@ CREATE TABLE `laporan_pic` (
   KEY `laporan_pic_user_id_foreign` (`user_id`),
   CONSTRAINT `laporan_pic_laporan_id_foreign` FOREIGN KEY (`laporan_id`) REFERENCES `laporans` (`id`) ON DELETE CASCADE,
   CONSTRAINT `laporan_pic_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,7 +252,7 @@ CREATE TABLE `laporans` (
   `bukti_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `opd_id` bigint unsigned NOT NULL,
   `lokasi_id` bigint unsigned NOT NULL,
-  `kategori` enum('aplikasi','infrastruktur','jaringan') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kategori` enum('aplikasi','infrastruktur','jaringan','administrasi') COLLATE utf8mb4_unicode_ci NOT NULL,
   `analisis_masalah` text COLLATE utf8mb4_unicode_ci,
   `solusi` text COLLATE utf8mb4_unicode_ci,
   `penggunaan_perangkat` tinyint(1) NOT NULL DEFAULT '0',
@@ -268,7 +268,7 @@ CREATE TABLE `laporans` (
   CONSTRAINT `laporans_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `laporans_lokasi_id_foreign` FOREIGN KEY (`lokasi_id`) REFERENCES `lokasis` (`id`) ON DELETE CASCADE,
   CONSTRAINT `laporans_opd_id_foreign` FOREIGN KEY (`opd_id`) REFERENCES `opds` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -413,7 +413,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('Ew424ZuQWlMbxOfRXsk3olkUXaaU46HDXtGuDfQg',NULL,'172.19.224.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoiU1hDTGE5U09oeXRtd2JTRFA1Vm00ZG5nU2kxUFgxZHcyTmNCQXFWRiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xNzIuMTkuMjI1LjI1NDo4MDAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1754388056),('LgBOm5G7gkXB2X0ZlpziMf5tO6p5xdQDGaXjhghh',NULL,'172.19.224.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoiUm1aaVlOWENyMlNRSm0wN2xUTmhCaFlhSDZNb1VPbzFlbGNEd3phRCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xNzIuMTkuMjI1LjI1NDo4MDAwL29wZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=',1754387204);
+INSERT INTO `sessions` VALUES ('5nKilwfqSp4hZ0JVePPCgeHEYVLOGZhQIxjw2nNI',NULL,'172.19.224.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoiWEx5YWdyNEZ5dWFUQWVOVE1oTEl3YjE4MDdrRWU1MVBERFZOZkZKbSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xNzIuMTkuMjI1LjI1NDo4MDAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1754563051),('VktSsd17C6D3RIUoWzLF5KoWo0rEcr3QmYu3yDpM',NULL,'172.19.224.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36','YTozOntzOjY6Il90b2tlbiI7czo0MDoiQjZtdWlBUzNEejY1OTBkaThDR3dhcDhqMHRMUXNaZHVidEhGREtrYyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xNzIuMTkuMjI1LjI1NDo4MDAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1754563154);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,4 +457,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-05 17:02:02
+-- Dump completed on 2025-08-07 17:40:19

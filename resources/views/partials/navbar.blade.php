@@ -3,6 +3,7 @@
         'jaringan' => 'teal',
         'aplikasi' => 'blue',
         'infrastruktur' => 'orange',
+        'administrasi' => 'purple',
     ];
 
     $statusIcons = [
@@ -86,16 +87,19 @@
     }
 
     /* Pertahankan warna header yang berwarna */
-    body.dark-mode .ui.card .ui.orange.header {
+    body.dark-mode .ui.card .orange.header {
         color: #f2711c !important;
     }
 
-    body.dark-mode .ui.card .ui.blue.header {
+    body.dark-mode .ui.card .blue.header {
         color: #2185d0 !important;
     }
 
-    body.dark-mode .ui.card .ui.teal.header {
+    body.dark-mode .ui.card .teal.header {
         color: #00b5ad !important;
+    }
+    body.dark-mode .ui.card .purple.header {
+        color: #a678de !important;
     }
 
     /* === DataTable: Dark Mode === */
@@ -176,9 +180,9 @@
 </div>
 
 <div class="feature alternate ui stripe vertical segment">
-    <div class="ui three column center aligned stackable grid container">
+    <div class="ui four column center aligned stackable grid container">
         <div class="row">
-            @foreach (['jaringan', 'aplikasi', 'infrastruktur'] as $kategori)
+            @foreach (['jaringan', 'aplikasi', 'infrastruktur', 'administrasi'] as $kategori)
                 <div class="column">
                     <div class="ui fluid card" style="box-shadow: 0 4px 10px rgba(0,0,0,0.06);">
                         <div class="content">

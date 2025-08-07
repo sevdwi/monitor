@@ -75,7 +75,7 @@ class LaporanController extends Controller
             'bukti_url' => 'nullable|url',
             'opd' => 'required|exists:opds,id',
             'lokasi' => 'required|exists:lokasis,id',
-            'kategori' => 'required|in:aplikasi,infrastruktur,jaringan',
+            'kategori' => 'required|in:aplikasi,infrastruktur,jaringan,administrasi',
             'analisis_masalah' => 'nullable|string',
             'solusi' => 'nullable|string',
             'penggunaan_perangkat' => 'nullable|boolean',
@@ -85,6 +85,7 @@ class LaporanController extends Controller
             'pic.*' => 'exists:users,id',
             'kolaborator' => 'nullable|array',
             'kolaborator.*' => 'exists:kolaborators,id',
+            'created_by' => 'required|exists:users,id',
         ]);
 
         // Upload file bukti dukung jika ada
@@ -106,10 +107,10 @@ class LaporanController extends Controller
             'kategori' => $validated['kategori'],
             'analisis_masalah' => $validated['analisis_masalah'] ?? null,
             'solusi' => $validated['solusi'] ?? null,
-            'penggunaan_perangkat' => $request->has('penggunaan_perangkat') ? true : false,
+            'penggunaan_perangkat' => $validated['penggunaan_perangkat'] ?? false,
             'perangkat' => $validated['perangkat'] ?? null,
             'status_perangkat' => $validated['status_perangkat'] ?? null,
-            'created_by' => auth()->id() ?? 1, // pakai user id login, kalau belum login ganti 1
+            'created_by' => $validated['created_by'] ?? null,
         ]);
 
         // Sync PIC (many to many)
@@ -160,7 +161,7 @@ class LaporanController extends Controller
             'bukti_url' => 'nullable|url',
             'opd' => 'required|exists:opds,id',
             'lokasi' => 'required|exists:lokasis,id',
-            'kategori' => 'required|in:aplikasi,infrastruktur,jaringan',
+            'kategori' => 'required|in:aplikasi,infrastruktur,jaringan,administrasi',
             'analisis_masalah' => 'nullable|string',
             'solusi' => 'nullable|string',
             'penggunaan_perangkat' => 'present|nullable|boolean',
@@ -170,6 +171,7 @@ class LaporanController extends Controller
             'pic.*' => 'exists:users,id',
             'kolaborator' => 'nullable|array',
             'kolaborator.*' => 'exists:kolaborators,id',
+            'created_by' => 'required|exists:users,id',
         ]);
 
         // Update data dasar
@@ -187,6 +189,7 @@ class LaporanController extends Controller
             'penggunaan_perangkat' => $request->has('penggunaan_perangkat'),
             'perangkat' => $request->penggunaan_perangkat ? $validated['perangkat'] : null,
             'status_perangkat' => $request->penggunaan_perangkat ? $validated['status_perangkat'] : null,
+            'created_by' => $validated['created_by'] ?? null,
         ]);
 
         // Handle bukti_dukung jika diunggah ulang
