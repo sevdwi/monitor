@@ -78,6 +78,7 @@
                             <label>KATEGORI</label>
                             <select class="ui fluid dropdown" name="kategori" required>
                                 <option value="">Pilih Kategori</option>
+                                <option value="administrasi">Administrasi</option>
                                 <option value="aplikasi">Aplikasi</option>
                                 <option value="infrastruktur">Infrastruktur</option>
                                 <option value="jaringan">Jaringan</option>
@@ -132,7 +133,7 @@
                     <div class="two fields">
                         <div class="field">
                             <label>PIC</label>
-                            <select class="ui fluid multiple search dropdown" name="pic[]" multiple>
+                            <select class="ui fluid multiple search dropdown" id="pic" name="pic[]" multiple>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
@@ -210,4 +211,27 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const picSelect = document.getElementById('pic');
+            const createdByInput = document.getElementById('created_by');
+
+            function updateCreatedBy() {
+                const selected = Array.from(picSelect.selectedOptions);
+                if (selected.length > 0) {
+                    createdByInput.value = selected[0].value; // ambil ID user pertama
+                } else {
+                    createdByInput.value = '';
+                }
+            }
+
+            // Set saat halaman load (jika ada pilihan default)
+            updateCreatedBy();
+
+            // Update setiap kali user ubah pilihan
+            picSelect.addEventListener('change', updateCreatedBy);
+        });
+    </script>
+
 @endpush

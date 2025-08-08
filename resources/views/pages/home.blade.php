@@ -41,7 +41,7 @@
                                    data-solusi="{{ $laporan->solusi }}"
                                    data-perangkat="{{ $laporan->perangkat }}"
                                    data-status-perangkat="{{ $laporan->status_perangkat }}"
-                                   data-penggunaan-perangkat="{{ $laporan->penggunaan_perangkat }}"
+                                   data-penggunaan-perangkat="{{ $laporan->penggunaan_perangkat ? '1' : '0' }}"
                                    data-pics="{{ $laporan->pics->pluck('id')->implode(',') }}"
                                    data-kolaborators="{{ $laporan->kolaborators->pluck('id')->implode(',') }}"
                                 >
@@ -77,16 +77,26 @@
                             </td>
                             <td class="center aligned">
                                 @if ($laporan->bukti_dukung)
-                                    <img
-                                        class="ui tiny image bukti-image"
-                                        src="{{ asset('storage/' . $laporan->bukti_dukung) }}"
-                                        alt="Bukti"
-                                        style="cursor: pointer;"
-                                        data-src="{{ asset('storage/' . $laporan->bukti_dukung) }}"
-                                    >
+                                    @php
+                                        $ext = pathinfo($laporan->bukti_dukung, PATHINFO_EXTENSION);
+                                    @endphp
+
+                                    @if (in_array(strtolower($ext), ['jpg', 'jpeg', 'png']))
+                                        <img
+                                            class="ui tiny image bukti-image"
+                                            src="{{ asset('storage/' . $laporan->bukti_dukung) }}"
+                                            alt="Bukti"
+                                            style="cursor: pointer;"
+                                            data-src="{{ asset('storage/' . $laporan->bukti_dukung) }}"
+                                        >
+                                    @elseif(strtolower($ext) === 'pdf')
+                                        <a href="{{ asset('storage/' . $laporan->bukti_dukung) }}" target="_blank">
+                                            <i class="file pdf icon"></i> Lihat PDF
+                                        </a>
+                                    @endif
                                 @endif
 
-                                @if ($laporan->bukti_url)
+                            @if ($laporan->bukti_url)
                                     <br>
                                     <a href="{{ $laporan->bukti_url }}" target="_blank">Lihat Link</a>
                                 @endif
@@ -99,16 +109,21 @@
 
                             <td>
                                 @if ($laporan->penggunaan_perangkat)
-                                    {{ $laporan->perangkat }}<br>
-                                    <em>({{ ucfirst($laporan->status_perangkat) }})</em>
+                                    @if ($laporan->perangkat && $laporan->status_perangkat)
+                                        {{ $laporan->perangkat }}<br>
+                                        <em>({{ ucfirst($laporan->status_perangkat) }})</em>
+                                    @else
+                                        -
+                                    @endif
                                 @else
-                                    Tidak ada
+                                    -
                                 @endif
+
                             </td>
                             <td>
                                 @foreach ($laporan->pics as $pic)
                                     <div class="ui image label">
-                                        <img src="{{ asset('storage/images/avatar/small/elliot.jpg') }}" alt="Avatar">
+{{--                                        <img src="{{ asset('storage/images/avatar/small/elliot.jpg') }}" alt="Avatar">--}}
                                         {{ $pic->name }}
                                     </div>
                                 @endforeach
@@ -159,139 +174,193 @@
 
                 <h4 class="ui dividing header">Informasi Pekerjaan</h4>
                 <div class="three fields">
-                    <div class="field">
-                        <label>STATUS</label>
+                    <div class="field {{ $errors->has('status_pekerjaan') ? 'error' : '' }}">
+                        <label>Status</label>
                         <select class="ui fluid dropdown" name="status_pekerjaan" required>
                             <option value="">Pilih Status</option>
-                            <option value="belum">Belum Selesai</option>
-                            <option value="proses">Dalam Proses</option>
-                            <option value="selesai">Selesai</option>
-                            <option value="tertunda">Tertunda</option>
+                            <option value="belum" {{ old('status_pekerjaan') == 'belum' ? 'selected' : '' }}>Belum Selesai</option>
+                            <option value="proses" {{ old('status_pekerjaan') == 'proses' ? 'selected' : '' }}>Dalam Proses</option>
+                            <option value="selesai" {{ old('status_pekerjaan') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="tertunda" {{ old('status_pekerjaan') == 'tertunda' ? 'selected' : '' }}>Tertunda</option>
                         </select>
+                        @error('status_pekerjaan')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="field">
-                        <label>MULAI</label>
-                        <div class="ui medium calendar" id="modal-start-calendar">
-                            <div class="ui fluid input left icon">
-                                <input type="text" name="mulai_pekerjaan" placeholder="Date/Time" autocomplete="off" required>
+
+                    <div class="field {{ $errors->has('mulai_pekerjaan') ? 'error' : '' }}">
+                        <label>Mulai</label>
+                        <div class="ui calendar" id="modal-start-calendar">
+                            <div class="ui input left icon">
+                                <input type="text" name="mulai_pekerjaan" value="{{ old('mulai_pekerjaan') }}" placeholder="Date/Time" required>
                                 <i class="calendar icon"></i>
                             </div>
                         </div>
+                        @error('mulai_pekerjaan')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="field">
-                        <label>SELESAI</label>
-                        <div class="ui medium calendar" id="modal-stop-calendar">
-                            <div class="ui fluid input left icon">
-                                <input type="text" name="selesai_pekerjaan" placeholder="Date/Time" autocomplete="off">
+
+                    <div class="field {{ $errors->has('selesai_pekerjaan') ? 'error' : '' }}">
+                        <label>Selesai</label>
+                        <div class="ui calendar" id="modal-stop-calendar">
+                            <div class="ui input left icon">
+                                <input type="text" name="selesai_pekerjaan" value="{{ old('selesai_pekerjaan') }}" placeholder="Date/Time">
                                 <i class="calendar icon"></i>
                             </div>
                         </div>
+                        @error('selesai_pekerjaan')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
-                <div class="field">
-                    <label>DESKRIPSI</label>
-                    <textarea name="deskripsi" rows="3" placeholder="Deskripsi pekerjaan" required></textarea>
+                <div class="field {{ $errors->has('deskripsi') ? 'error' : '' }}">
+                    <label>Deskripsi</label>
+                    <textarea name="deskripsi" rows="3" required>{{ old('deskripsi') }}</textarea>
+                    @error('deskripsi')
+                    <div class="ui pointing red basic label">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="field">
-                    <label>BUKTI DUKUNG</label>
+                <div class="field {{ $errors->has('bukti_dukung') ? 'error' : '' }}">
+                    <label>Bukti Dukung</label>
                     <input type="file" name="bukti_dukung" accept=".jpg,.jpeg,.png,.pdf">
-                    <input type="url" name="bukti_url" placeholder="Link (opsional)" style="margin-top: 0.5em;">
+                    @error('bukti_dukung')
+                    <div class="ui pointing red basic label">{{ $message }}</div>
+                    @enderror
+                    <input type="url" name="bukti_url" placeholder="Link (opsional)" value="{{ old('bukti_url') }}" style="margin-top: 0.5em;">
                 </div>
 
                 <h4 class="ui dividing header">Detail Instansi & Lokasi</h4>
                 <div class="three fields">
-                    <div class="field">
+                    <div class="field {{ $errors->has('opd') ? 'error' : '' }}">
                         <label>OPD</label>
                         <select class="ui fluid dropdown" name="opd" required>
                             <option value="">Pilih OPD</option>
                             @foreach($opds as $opd)
-                                <option value="{{ $opd->id }}">{{ $opd->nama }}</option>
+                                <option value="{{ $opd->id }}" {{ old('opd') == $opd->id ? 'selected' : '' }}>{{ $opd->nama }}</option>
                             @endforeach
                         </select>
-                    </div>
-                    <div class="field">
-                        <label>LOKASI</label>
-                        <select class="ui fluid dropdown" name="lokasi" id="lokasi-dropdown" required>
-                            <option value="">Pilih Lokasi</option>
-                            {{-- Ini akan diisi via JS --}}
-                        </select>
+                        @error('opd')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <div class="field">
-                        <label>KATEGORI</label>
+                    <div class="field {{ $errors->has('lokasi') ? 'error' : '' }}">
+                        <label>Lokasi</label>
+                        <select class="ui fluid dropdown" name="lokasi" id="lokasi-dropdown" required>
+                            <option value="">Pilih Lokasi</option>
+                            {{-- Dynamic via JS --}}
+                        </select>
+                        @error('lokasi')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="field {{ $errors->has('kategori') ? 'error' : '' }}">
+                        <label>Kategori</label>
                         <select class="ui fluid dropdown" name="kategori" required>
                             <option value="">Pilih Kategori</option>
-                            <option value="aplikasi">Aplikasi</option>
-                            <option value="infrastruktur">Infrastruktur</option>
-                            <option value="jaringan">Jaringan</option>
+                            <option value="administrasi" {{ old('kategori') == 'administrasi' ? 'selected' : '' }}>Administrasi</option>
+                            <option value="aplikasi" {{ old('kategori') == 'aplikasi' ? 'selected' : '' }}>Aplikasi</option>
+                            <option value="infrastruktur" {{ old('kategori') == 'infrastruktur' ? 'selected' : '' }}>Infrastruktur</option>
+                            <option value="jaringan" {{ old('kategori') == 'jaringan' ? 'selected' : '' }}>Jaringan</option>
                         </select>
+                        @error('kategori')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
                 <h4 class="ui dividing header">Analisis & Solusi</h4>
                 <div class="two fields">
-                    <div class="field">
-                        <label>ANALISIS MASALAH</label>
-                        <textarea name="analisis_masalah" rows="3" placeholder="Analisis masalah"></textarea>
+                    <div class="field {{ $errors->has('analisis_masalah') ? 'error' : '' }}">
+                        <label>Analisis Masalah</label>
+                        <textarea name="analisis_masalah" rows="3" placeholder="Analisis masalah">{{ old('analisis_masalah') }}</textarea>
+                        @error('analisis_masalah')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="field">
-                        <label>SOLUSI</label>
-                        <textarea name="solusi" rows="3" placeholder="Solusi yang diberikan"></textarea>
+                    <div class="field {{ $errors->has('solusi') ? 'error' : '' }}">
+                        <label>Solusi</label>
+                        <textarea name="solusi" rows="3" placeholder="Solusi yang diberikan">{{ old('solusi') }}</textarea>
+                        @error('solusi')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="ui segment">
                     <div class="field">
-                        <div class="ui toggle checkbox">
+                        <div class="ui toggle checkbox {{ $errors->has('penggunaan_perangkat') ? 'error' : '' }}">
                             <input type="hidden" name="penggunaan_perangkat" value="0">
-                            <input id="toggle-perangkat" type="checkbox" name="penggunaan_perangkat" tabindex="0" class="hidden" value="1">
+                            <input id="toggle-perangkat" type="checkbox" name="penggunaan_perangkat" tabindex="0" class="hidden" value="1" {{ old('penggunaan_perangkat') ? 'checked' : '' }}>
                             <label>Melakukan pergantian perangkat</label>
                         </div>
-                    </div>
-                    <div class="field">
-                        <label>Perangkat Digunakan</label>
-                        <input id="input-perangkat" type="text" name="perangkat" placeholder="Hardware" disabled>
+                        @error('penggunaan_perangkat')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <div class="inline fields" id="radio-perangkat" style="opacity: 0.5; pointer-events: none;">
+                    <div class="field {{ $errors->has('perangkat') ? 'error' : '' }}">
+                        <label>Perangkat Digunakan</label>
+                        <input id="input-perangkat" type="text" name="perangkat" placeholder="Hardware" value="{{ old('perangkat') }}" {{ old('penggunaan_perangkat') ? '' : 'disabled' }}>
+                        @error('perangkat')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="inline fields {{ $errors->has('status_perangkat') ? 'error' : '' }}" id="radio-perangkat" style="{{ old('penggunaan_perangkat') ? '' : 'opacity: 0.5; pointer-events: none;' }}">
                         <label>Status Perangkat</label>
                         <div class="field">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="status_perangkat" value="baru" disabled>
+                                <input type="radio" name="status_perangkat" value="baru" {{ old('status_perangkat') == 'baru' ? 'checked' : '' }} {{ old('penggunaan_perangkat') ? '' : 'disabled' }}>
                                 <label>Baru</label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="status_perangkat" value="bekas" disabled>
+                                <input type="radio" name="status_perangkat" value="bekas" {{ old('status_perangkat') == 'bekas' ? 'checked' : '' }} {{ old('penggunaan_perangkat') ? '' : 'disabled' }}>
                                 <label>Bekas</label>
                             </div>
                         </div>
+                        @error('status_perangkat')
+                        <div class="ui pointing red basic label" style="margin-left: 1em;">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
                 <h4 class="ui dividing header">Tim yang Terlibat</h4>
                 <div class="two fields">
-                    <div class="field">
+                    <div class="field {{ $errors->has('pic') ? 'error' : '' }}">
                         <label>PIC</label>
-                        <select class="ui fluid multiple search dropdown" name="pic[]" multiple>
+                        <select class="ui fluid multiple search dropdown" id="pic" name="pic[]" multiple>
                             @foreach($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                <option value="{{ $user->id }}" {{ collect(old('pic'))->contains($user->id) ? 'selected' : '' }}>{{ $user->name }}</option>
                             @endforeach
                         </select>
+                        @error('pic')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="field">
+
+                    <div class="field {{ $errors->has('kolaborator') ? 'error' : '' }}">
                         <label>Kolaborator</label>
                         <select class="ui fluid multiple search dropdown" name="kolaborator[]" multiple>
                             @foreach($kolaborators as $kolab)
-                                <option value="{{ $kolab->id }}">{{ $kolab->nama }} ({{ $kolab->instansi }})</option>
+                                <option value="{{ $kolab->id }}" {{ collect(old('kolaborator'))->contains($kolab->id) ? 'selected' : '' }}>
+                                    {{ $kolab->nama }} ({{ $kolab->instansi }})
+                                </option>
                             @endforeach
                         </select>
+                        @error('kolaborator')
+                        <div class="ui pointing red basic label">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
+                <input type="hidden" name="created_by" id="created_by">
                 <button type="submit" class="ui primary button">Simpan</button>
             </form>
         </div>
@@ -303,195 +372,134 @@
 
 @push('scripts')
     <script>
-        $('.bukti-image').on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            if ($('#laporanModal').hasClass('visible') || $('#laporanModal').is(':visible')) {
-                return; // Jangan buka modal gambar kalau modal form terbuka
-            }
-
-            const imgSrc = $(this).data('src');
-            $('#modal-image').attr('src', imgSrc);
-            $('#image-modal').modal('show');
-        });
-
-    </script>
-
-    <script>
-            $(document).ready(function () {
-                // Inisialisasi kalender & dropdown
-                $('.ui.dropdown').dropdown();
-                $('#modal-start-calendar').calendar({ type: 'datetime' });
-                $('#modal-stop-calendar').calendar({ type: 'datetime' });
-
-                // Buka modal untuk create
-                @if ($errors->any())
-                resetForm();
-                $('#laporanForm').attr('action', '{{ route('lapor.store') }}');
-                $('#form-method').val('POST');
-                $('#modal-title').text('Tambah Laporan');
-                $('#laporanModal').modal({
-                    autofocus: false,
-                    observeChanges: false,
-                    onHidden: function() {
-                        // Tutup modal gambar jika terbuka
-                        if ($('#image-modal').hasClass('visible')) {
-                            $('#image-modal').modal('hide');
-                        }
-                    }
-                }).modal('show');
-
-                $('.ui.modal .close.icon').on('click', function() {
-                    $('#image-modal').modal('hide');
-                });
-
-                $('#laporanForm').on('submit', function () {
-                    $(this).find('button[type="submit"]').addClass('loading disabled');
-                });
-                @endif
-
-                // (Optional) Kalau ingin pakai tombol edit dalam tabel:
-                $('.btn-edit-laporan').on('click', function () {
-                    const data = $(this).data();
-
-                    $('#laporan-id').val(data.id);
-                    $('#status_pekerjaan').dropdown('set selected', data.status);
-                    $('#mulai_pekerjaan').val(data.mulai);
-                    $('#selesai_pekerjaan').val(data.selesai);
-                    $('#deskripsi').val(data.deskripsi);
-                    // dan field lain...
-
-                    $('#laporanForm').attr('action', `/lapor/${data.id}`);
-                    $('#form-method').val('PUT');
-                    $('#modal-title').text('Edit Laporan');
-                    $('#laporanModal').modal('show');
-                });
-
-                function resetForm() {
-                    $('#laporanForm')[0].reset();
-                    $('#laporanForm .ui.dropdown').each(function () {
-                        $(this).dropdown('clear');
-                    });
-                    $('#form-method').val('POST');
-                }
-
+        document.addEventListener('DOMContentLoaded', function () {
+            const $form = $('#laporanForm');
+            const $modal = $('#laporanModal').modal({
+                 onHidden: function () {
+                     $('#laporanForm')[0].reset();
+                     $('#laporanForm').form('reset');
+                     $('#laporanForm .ui.dropdown').dropdown('clear');
+                     $('#laporanForm .field').removeClass('error');
+                     $('#laporanForm .ui.basic.label').remove();
+                     $('#laporanForm input[type=hidden]').val('');
+                 }
             });
-        </script>
+            const $lokasiDropdown = $('#lokasi-dropdown');
 
-    <script>
-        $('.a-edit-laporan').on('click', function (e) {
-            // Cegah buka modal gambar
-            e.preventDefault();
-            e.stopPropagation();
-            const data = $(this).data();
-            // console.log('status perangkat:', data.statusPerangkat);
-            // Set nilai field
-            $('#laporan-id').val(data.id);
-            $('select[name="status_pekerjaan"]').dropdown('set selected', data.status);
-            $('input[name="mulai_pekerjaan"]').val(data.mulai);
-            $('input[name="selesai_pekerjaan"]').val(data.selesai);
-            $('textarea[name="deskripsi"]').val(data.deskripsi);
+            // Init dropdowns & calendar
+            $('.ui.dropdown').dropdown();
+            $('#modal-start-calendar, #modal-stop-calendar').calendar({ type: 'datetime' });
 
-            $('select[name="opd"]').dropdown('set selected', data.opd);
-            $('select[name="lokasi"]').dropdown('set selected', data.lokasi);
-            $('select[name="kategori"]').dropdown('set selected', data.kategori);
+            // Gambar preview
+            $('.bukti-image').on('click', function (e) {
+                console.log('Clicked image, laporanModal active?', $('#laporanModal').hasClass('active'));
 
-            $('textarea[name="analisis_masalah"]').val(data.analisis);
-            $('textarea[name="solusi"]').val(data.solusi);
+                if ($('#laporanModal').hasClass('active')) return;
 
-            // Perangkat
-            if (data.penggunaanPerangkat) {
-                $('#toggle-perangkat').prop('checked', true).closest('.checkbox').checkbox('check');
-                $('#input-perangkat').val(data.perangkat).prop('disabled', false);
-                $('#radio-perangkat').css({ opacity: 1, 'pointer-events': 'auto' });
-                $('input[name="status_perangkat"]').prop('disabled', false);
-                $(`input[name="status_perangkat"][value="${data.statusPerangkat}"]`).prop('checked', true);
-            } else {
-                $('#toggle-perangkat').prop('checked', false).closest('.checkbox').checkbox('uncheck');
-                $('#input-perangkat').val('').prop('disabled', true);
-                $('#radio-perangkat').css({ opacity: 0.5, 'pointer-events': 'none' });
-                $('input[name="status_perangkat"]').prop('checked', false).prop('disabled', true);
-            }
-
-            // === PICs (multiple dropdown)
-            if (data.pics) {
-                let picIds = String(data.pics).split(',').map(id => id.trim());
-                $('select[name="pic[]"]').dropdown('clear').dropdown('set selected', picIds);
-            }
-
-            // === Kolaborators
-            if (data.kolaborators) {
-                let kolabIds = String(data.kolaborators).split(',').map(id => id.trim());
-                $('select[name="kolaborator[]"]').dropdown('clear').dropdown('set selected', kolabIds);
-            }
-
-            console.log('PICs:', data.pics);
-            console.log('Kolaborators:', data.kolaborators);
-
-
-            // Set form action dan method
-            $('#laporanForm').attr('action', `/lapor/${data.id}`);
-            $('#form-method').val('PUT');
-
-            $('#modal-title').text('Edit Laporan');
-            $('#laporanModal').modal({ autofocus: false }).modal('show');
-        });
-    </script>
-
-@endpush
-
-@push('scripts')
-    <script>
-        $(document).ready(function () {
-            @if(session('success'))
-            $('body').toast({
-                class: 'success',
-                message: '{{ session('success') }}',
-                showProgress: 'bottom',
-                displayTime: 4000
+                const imgSrc = $(this).data('src');
+                $('#modal-image').attr('src', imgSrc);
+                $('#image-modal').modal('show');
             });
-            @endif
 
-            @if(session('error'))
-            $('body').toast({
-                class: 'error',
-                message: '{{ session('error') }}',
-                showProgress: 'bottom',
-                displayTime: 4000
+            // Toggle perangkat
+            $('#toggle-perangkat').on('change', function () {
+                const isChecked = $(this).is(':checked');
+                $('#input-perangkat').prop('disabled', !isChecked);
+                $('#radio-perangkat').css({ opacity: isChecked ? 1 : 0.5, 'pointer-events': isChecked ? 'auto' : 'none' });
+                $('input[name="status_perangkat"]').prop('disabled', !isChecked);
             });
-            @endif
-        });
-    </script>
 
-    <script>
-        $('select[name="opd"]').on('change', function () {
-            const opdId = $(this).val();
+            // Ganti OPD -> Load Lokasi
+            $('select[name="opd"]').on('change', function () {
+                const opdId = $(this).val();
+                $lokasiDropdown.html('<option>Memuat lokasi...</option>').prop('disabled', true);
 
-            // Kosongkan dan disable dropdown lokasi dulu
-            const lokasiDropdown = $('#lokasi-dropdown');
-            lokasiDropdown.dropdown('clear');
-            lokasiDropdown.html('<option value="">Memuat lokasi...</option>');
-            lokasiDropdown.prop('disabled', true);
+                if (!opdId) return;
 
-            if (!opdId) return;
-
-            $.ajax({
-                url: `/lokasi/by-opd/${opdId}`,
-                type: 'GET',
-                success: function (res) {
+                $.get(`/lokasi/by-opd/${opdId}`, function (res) {
                     let options = '<option value="">Pilih Lokasi</option>';
-                    res.forEach(function (lokasi) {
-                        options += `<option value="${lokasi.id}">${lokasi.nama}</option>`;
-                    });
-                    lokasiDropdown.html(options).prop('disabled', false);
-                    lokasiDropdown.dropdown('refresh');
-                },
-                error: function () {
-                    lokasiDropdown.html('<option value="">Gagal memuat lokasi</option>');
-                }
+                    res.forEach(l => options += `<option value="${l.id}">${l.nama}</option>`);
+                    $lokasiDropdown.html(options).prop('disabled', false).dropdown('refresh');
+                });
             });
+
+            // Edit
+            $('.a-edit-laporan').on('click', function (e) {
+                e.preventDefault();
+                const d = $(this).data();
+
+                $form[0].reset();
+                $('.ui.dropdown').dropdown('clear');
+                $('#form-method').val('PUT');
+                $('#laporan-id').val(d.id);
+                $('#modal-title').text('Edit Laporan');
+                $form.attr('action', `/lapor/${d.id}`);
+
+                $('[name="status_pekerjaan"]').dropdown('set selected', d.status);
+                $('[name="mulai_pekerjaan"]').val(d.mulai);
+                $('[name="selesai_pekerjaan"]').val(d.selesai);
+                $('[name="deskripsi"]').val(d.deskripsi);
+                $('[name="kategori"]').dropdown('set selected', d.kategori);
+                $('[name="opd"]').dropdown('set selected', d.opd);
+                $('[name="analisis_masalah"]').val(d.analisis);
+                $('[name="solusi"]').val(d.solusi);
+
+                // Perangkat
+                const perangkatUsed = d.penggunaanPerangkat == 1 || d.penggunaanPerangkat === '1' || d.penggunaanPerangkat === true;
+                if (perangkatUsed) {
+                    $('#toggle-perangkat').prop('checked', true);
+                    $('#toggle-perangkat').closest('.checkbox').checkbox('set checked');
+                } else {
+                    $('#toggle-perangkat').prop('checked', false);
+                    $('#toggle-perangkat').closest('.checkbox').checkbox('set unchecked');
+                }
+                $('#input-perangkat').val(d.perangkat).prop('disabled', !perangkatUsed);
+                $('#radio-perangkat').css({ opacity: perangkatUsed ? 1 : 0.5, 'pointer-events': perangkatUsed ? 'auto' : 'none' });
+                $('input[name="status_perangkat"]').prop('disabled', !perangkatUsed);
+                if (perangkatUsed) $(`input[name="status_perangkat"][value="${d.statusPerangkat}"]`).prop('checked', true);
+
+                // PICs & Kolaborator
+                $('select[name="pic[]"]').dropdown('set selected', String(d.pics).split(','));
+                $('select[name="kolaborator[]"]').dropdown('set selected', String(d.kolaborators).split(','));
+
+                // Ambil lokasi dari OPD
+                $.get(`/lokasi/by-opd/${d.opd}`, function (res) {
+                    let options = '<option value="">Pilih Lokasi</option>';
+                    res.forEach(l => options += `<option value="${l.id}">${l.nama}</option>`);
+                    $lokasiDropdown.html(options).prop('disabled', false).dropdown('refresh').dropdown('set selected', d.lokasi);
+                });
+
+                $modal.modal({ autofocus: false }).modal('show');
+            });
+
+            // Toast Error Laravel
+            @if ($errors->any())
+            @foreach ($errors->all() as $error)
+            $('body').toast({ class: 'error', message: {!! json_encode($error) !!}, displayTime: 5000 });
+            @endforeach
+            $modal.modal('show');
+            @endif
+
+            // Toast Session
+            @if(session('success'))
+            $('body').toast({ class: 'success', message: '{{ session('success') }}' });
+            @endif
+            @if(session('error'))
+            $('body').toast({ class: 'error', message: '{{ session('error') }}' });
+            @endif
+
+            // Auto set created_by = PIC pertama
+            $('#pic').on('change', function () {
+                const selected = $(this).val();
+                $('#created_by').val(selected.length > 0 ? selected[0] : '');
+            }).trigger('change');
         });
+
+        $form.on('submit', function() {
+            console.log("Penggunaan perangkat:", $('#toggle-perangkat').is(':checked'));
+        });
+
     </script>
 @endpush
+
 

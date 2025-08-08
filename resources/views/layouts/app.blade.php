@@ -125,10 +125,10 @@
                         </button>
                     `);
 
-                    $('#openLaporanModal').on('click', function() {
-                        // Contoh aksi: tampilkan modal
-                        $('.ui.modal').modal('show');
-                        // Atau jalankan fungsi lain sesuai kebutuhanmu
+                    $('#openLaporanModal').on('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        $('#laporanModal').modal('show');
                     });
                 }
 
